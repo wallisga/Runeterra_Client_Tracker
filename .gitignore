@@ -1,0 +1,17 @@
+# Specify filepatterns you want git to ignore.
+
+#Ignore pycache files
+*.pyc
+
+#Ignore config files
+*.conf
+*config
+
+#Ignore data dragon
+*data_dragon
+
+#Ignore log files
+*.log
+
+#Ignore tmp files
+*tmp
