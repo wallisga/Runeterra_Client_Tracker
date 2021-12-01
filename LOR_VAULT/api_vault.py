@@ -2,9 +2,12 @@ import requests
 from datetime import datetime
 from time import sleep, time
 import logging
-
+import json
 from lor_deckcodes import LoRDeck
 from cache import check_cache, get_card_info, get_username
+
+with open('token.json') as f:
+    token = json.loads(f)
 
 class DictToClass(object):
     def __init__(self, data):
@@ -39,16 +42,13 @@ def hb():
 
 def get_puuid(username):
     url = 'https://na1.api.riotgames.com/lol/summoner/v4/summoners/by-name/'+username
-    headers = {
-        "X-Riot-Token": "RGAPI-999f2ede-be54-4053-82c2-bafbc381c9fe"
-    }
-    result = requests.get(url, headers=headers)
+    result = requests.get(url, headers=token)
     logging.info('get_puuid Status Code - '+str(result.status_code))
     sleep(5)
     while result.status_code != 200:
         logging.error('/lol/summoner/v4/summoners/by-name/$username - Endpoint Unavailable')    
         sleep(5)
-        result = requests.get(url, headers=headers)
+        result = requests.get(url, headers=token)
     return result.json()
 
 def get_summoner(puuid):
@@ -56,13 +56,13 @@ def get_summoner(puuid):
     headers = {
         "X-Riot-Token": "RGAPI-999f2ede-be54-4053-82c2-bafbc381c9fe"
     }    
-    result = requests.get(url, headers=headers)
+    result = requests.get(url, headers=token)
     logging.info('get_summoner Status Code - '+str(result.status_code))
     sleep(5)
     while result.status_code != 200:
         logging.error('/lol/summoner/v4/summoners/by-puuid/$puuid - Endpoint Unavailable')
         sleep(5)
-        result = requests.get(url, headers=headers)
+        result = requests.get(url, headers=token)
     return result.json()    
 
 def get_match_history(puuid):
@@ -70,13 +70,13 @@ def get_match_history(puuid):
     headers = {
         "X-Riot-Token": "RGAPI-999f2ede-be54-4053-82c2-bafbc381c9fe"
     }    
-    result = requests.get(url, headers=headers)
+    result = requests.get(url, headers=token)
     logging.info('get_match_history Status Code - '+str(result.status_code))
     sleep(5)
     while result.status_code != 200:
         logging.error('/lor/match/v1/matches/by-puuid/$puuid/ids - Endpoint Unavailable')
         sleep(5)
-        result = requests.get(url, headers=headers)
+        result = requests.get(url, headers=token)
     return result.json()
 
 def get_match(match):
@@ -84,13 +84,13 @@ def get_match(match):
     headers = {
         "X-Riot-Token": "RGAPI-999f2ede-be54-4053-82c2-bafbc381c9fe"
     }    
-    result = requests.get(url, headers=headers)
+    result = requests.get(url, headers=token)
     logging.info('get_match Status Code - '+str(result.status_code))
     sleep(5)
     while result.status_code != 200:
         logging.error('/lor/match/v1/matches/ - Endpoint Unavailable')
         sleep(5)
-        result = requests.get(url, headers=headers)
+        result = requests.get(url, headers=token)
     data = result.json() 
     data['index']=match[1]
     return data
