@@ -15,3 +15,6 @@
 
 #Ignore tmp files
 *tmp
+
+#Ignore json files
+*.json
